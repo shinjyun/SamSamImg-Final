@@ -37,9 +37,9 @@
 								<thead class="thead-light">
 									<tr class="text-center">
 										<th>이미지 번호</th>
-										<th>이미지 업로드 날짜</th>
-										<th>이미지 수정 날짜</th>
-										<th>이미지 url</th>
+										<th>업로드 날짜</th>
+										<th>수정 날짜</th>
+										<th>미리보기</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -49,10 +49,14 @@
 											<td>${list.img_number}</td>
 											<td>${list.img_upload}</td>
 											<td>${list.img_update}</td>
-											<td>${list.img_url}</td>
-											<td><a href="./ImgSelectDetail?img_number=${list.img_number}"
-												class="btn btn-outline-info"> 이미지 상세 보기 </a></td>
-										</tr>
+											<td>
+                                            <!-- 이미지를 미리보기하는 태그 -->
+                                            <img src="/ImgView?img_url=${list.img_url}" style="max-width: 100px; max-height: 100px;">
+	                                        </td>
+	                                        <td>
+	                                            <a href="./ImgSelectDetail?img_number=${list.img_number}" class="btn btn-outline-info"> 이미지 상세보기 </a>
+	                                        </td>
+                                        </tr>
 									</c:forEach>
 									<c:if test="${empty list}">
 										<tr>

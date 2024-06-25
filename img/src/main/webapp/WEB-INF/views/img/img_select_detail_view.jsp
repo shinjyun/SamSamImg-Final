@@ -44,7 +44,8 @@
 										<td>${imgDTO.img_number}</td>
 										<td>${imgDTO.img_upload}</td>
 										<td>${imgDTO.img_update}</td>
-										<td>${imgDTO.img_url}</td>
+										<!-- 이미지 미리보기를 표시할 img 태그 -->
+                                        <td><img src="/ImgView?img_url=${imgDTO.img_url}" style="max-width: 100px; max-height: 100px;"></td>
 									</tr>
 								</tbody>
 							</table>

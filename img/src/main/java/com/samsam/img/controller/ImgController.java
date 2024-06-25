@@ -1,13 +1,26 @@
 package com.samsam.img.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
+
 
 import com.samsam.img.dto.ImgDTO;
 import com.samsam.img.jpa.entity.Img;
@@ -29,6 +42,10 @@ public class ImgController {
 	// 의존 관계를 자동으로 설정
 	@Inject
 	private final ImgService imgService; // 멤버변수 생성
+	
+	// 파일 저장 경로를 하드코딩으로 지정
+    private static final String UPLOAD_DIR = "C:\\samsamimg";
+
 	
 // 방법2. 
 //	@Inject
@@ -60,22 +77,45 @@ public class ImgController {
 	}
 	
 	// 이미지 추가
-	@PostMapping("/ImgInsert")
-	public String insert(Model model, ImgDTO imgDTO) {
-		// ImgDTO를 Img 엔티티로 변환
-		Img img = new Img();
-		img.setImg_number(imgDTO.getImg_number());
-		img.setImg_update(imgDTO.getImg_update());
-		img.setImg_upload(imgDTO.getImg_upload());
-		img.setImg_url(imgDTO.getImg_url());
-		
-		// 모든 이미지 목록을 모델에 추가
-		model.addAttribute("list", imgService.findAllImgs());
-		
-		// 이미지 정보 저장
-		imgService.saveImg(img);
-		return "./img/img_insert_view";	
-	}
+		@PostMapping("/ImgInsert")
+		public String insert(Model model, @RequestParam("fileName") MultipartFile file, ImgDTO imgDTO) {
+			
+			String img_path = ("C:\\samsamimg\\");
+
+	    	//int size = 10 * 1024 * 1024;
+	        
+
+			
+			// ImgDTO를 Img 엔티티로 변환
+			Img img = new Img();
+			// img.setImg_number(imgDTO.getImg_number()); // 시퀀스 설정을 함
+			img.setImg_update(imgDTO.getImg_update());
+			img.setImg_upload(imgDTO.getImg_upload());
+			//img.setImg_url(imgDTO.getImg_url());
+			
+			// 이미지 경로에 저장
+			try {
+	            // 파일을 바이트 배열로 변환하여 저장
+	            byte[] bytes = file.getBytes();
+	            Path path = Paths.get(img_path + file.getOriginalFilename());
+	            Files.write(path, bytes);
+				img.setImg_url(file.getOriginalFilename());
+
+	            //return ResponseEntity.ok("성공적으로 업로드 되었습니다 - " + file.getOriginalFilename());
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            //return ResponseEntity.status(500).body("파일 업로드에 실패했습니다");
+	        }
+			
+			// 모든 이미지 목록을 모델에 추가
+			model.addAttribute("list", imgService.findAllImgs());
+
+			
+			// 이미지 정보 저장
+			imgService.saveImg(img);
+			return "./img/img_insert_view";	
+		}
 	
 	// 이미지 정보를 수정하는 페이지 표시
 	@GetMapping("/ImgUpdate")
@@ -129,4 +169,16 @@ public class ImgController {
 	public String selectAllView() {
 		return "./img/img_ajax";
 	}	
+	
+	@GetMapping("/ImgView")
+	@ResponseBody
+	public byte[] imgView(@RequestParam("img_url") String img_url) throws IOException {
+		
+		//InputStream inputStream = getClass().getResourceAsStream(img_url);
+		String dir = "C:\\samsamimg\\";
+		File imgFile = new File(dir+img_url);
+		Path imgPath = Paths.get(imgFile.getAbsolutePath());
+		
+		return Files.readAllBytes(imgPath);
+	}
 }

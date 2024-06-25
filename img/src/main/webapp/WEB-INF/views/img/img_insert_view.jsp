@@ -9,7 +9,7 @@
 	<%--객체값과 파라미터값이 같은지를 확인하고 반환한다.--%>
 	<c:if test="${list.img_number==imgDTO.img_number}">
 		<script type="text/javascript">
-			alert("입력하신 ${imgDTO.img_number}번의 이미지가 존재합니다. 다시 입력하세요");
+			alert("이미지가 존재합니다. 다시 입력하세요");
 			location.href = "./ImgInsert";
 		</script>
 	</c:if>
@@ -17,7 +17,7 @@
 </head>
 <body>
 	<script type="text/javascript">
-		alert("입력하신 ${imgDTO.img_number}번의 이미지를 등록하였습니다.")
+		alert("이미지를 등록하였습니다.")
 		location.href = "./ImgSelect"
 	</script>
 </body>
