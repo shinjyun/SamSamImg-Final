@@ -43,9 +43,7 @@ public class ImgController {
 	@Inject
 	private final ImgService imgService; // 멤버변수 생성
 	
-	// 파일 저장 경로를 하드코딩으로 지정
-    private static final String UPLOAD_DIR = "C:\\samsamimg";
-
+	
 	
 // 방법2. 
 //	@Inject
@@ -81,10 +79,6 @@ public class ImgController {
 		public String insert(Model model, @RequestParam("fileName") MultipartFile file, ImgDTO imgDTO) {
 			
 			String img_path = ("C:\\samsamimg\\");
-
-	    	//int size = 10 * 1024 * 1024;
-	        
-
 			
 			// ImgDTO를 Img 엔티티로 변환
 			Img img = new Img();
@@ -101,11 +95,10 @@ public class ImgController {
 	            Files.write(path, bytes);
 				img.setImg_url(file.getOriginalFilename());
 
-	            //return ResponseEntity.ok("성공적으로 업로드 되었습니다 - " + file.getOriginalFilename());
+	          
 
 	        } catch (IOException e) {
 	            e.printStackTrace();
-	            //return ResponseEntity.status(500).body("파일 업로드에 실패했습니다");
 	        }
 			
 			// 모든 이미지 목록을 모델에 추가
@@ -174,7 +167,6 @@ public class ImgController {
 	@ResponseBody
 	public byte[] imgView(@RequestParam("img_url") String img_url) throws IOException {
 		
-		//InputStream inputStream = getClass().getResourceAsStream(img_url);
 		String dir = "C:\\samsamimg\\";
 		File imgFile = new File(dir+img_url);
 		Path imgPath = Paths.get(imgFile.getAbsolutePath());
