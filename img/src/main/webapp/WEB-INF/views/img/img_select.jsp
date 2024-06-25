@@ -47,8 +47,8 @@
 									<c:forEach var="list" items="${list}">
 										<tr class="text-center">
 											<td>${list.img_number}</td>
-											<td>${list.img_upload}</td>
-											<td>${list.img_update}</td>
+											<td>${list.img_upload.substring(0, 10)}</td>
+											<td>${list.img_update.substring(0, 10)}</td>
 											<td>
                                             <!-- 이미지를 미리보기하는 태그 -->
                                             <img src="/ImgView?img_url=${list.img_url}" style="max-width: 100px; max-height: 100px;">
