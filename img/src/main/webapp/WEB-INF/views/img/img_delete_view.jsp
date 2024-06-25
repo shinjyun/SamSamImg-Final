@@ -18,7 +18,7 @@
         // 사용자가 확인을 눌렀다면
         if (confirmed) {
             // alert 창을 띄우고 이미지를 삭제하는 작업을 수행
-            alert("입력하신 ${imgDTO.img_number}번의 이미지를 삭제하였습니다.");
+            alert("이미지를 삭제하였습니다.");
             location.href = "./ImgSelect";
         } else {
             // 사용자가 취소를 눌렀다면 다시 되돌아옴
