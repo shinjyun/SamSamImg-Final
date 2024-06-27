@@ -12,7 +12,6 @@
 <script src="./js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="./js/dept_validity.js" type="text/javascript"></script>
 
-<!-- JavaScript 코드 추가 -->
 <script type="text/javascript">
 </script>
 
